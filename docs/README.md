@@ -1,166 +1,152 @@
 # Keycloak.ApiClient.Net - API Documentation
 
 > **Document Metadata**
-> Last Updated: 2026-01-20 19:30:00 UTC
+> Last Updated: 2026-01-20 20:00:00 UTC
 > Git Commit: `9bc2d34` (9bc2d34a37e88fae053f63977e0bfbd02a61441d)
 > Library Version: 2.0.2
 
 ## Overview
 
-This documentation provides comprehensive guides for using the Keycloak.ApiClient.Net library to interact with the Keycloak Admin REST API. Each document includes detailed explanations, code examples, and sequence diagrams showing how operations work.
+This documentation provides comprehensive guides for using the Keycloak.ApiClient.Net library to interact with the Keycloak Admin REST API. Each section includes detailed explanations, code examples, and sequence diagrams showing how operations work.
 
-## Documentation Structure
+## Documentation Organization
 
-The documentation is organized by feature sets (epics) to help you quickly find the operations you need:
+Documentation is organized into focused folders by feature area. Each folder contains:
+- **README.md** - Overview, models, key features, and navigation
+- **Operation-specific files** - Detailed documentation for each operation group
 
-### 🔐 [Authentication - Core Operations](./authentication-core.md)
+This structure keeps files concise and makes finding specific operations easier.
+
+## 🔐 Authentication
+
+**Location:** [`./authentication/`](./authentication/)
 
 Learn how to authenticate with Keycloak using different authentication modes.
 
-**Topics Covered:**
+**Topics:**
 - Username and Password Authentication
 - Client Secret Authentication
 - Token Function Authentication (Custom)
 - Combined Authentication
-- Authentication Flow Sequence Diagrams
 - Token Management and Caching
 - Security Best Practices
-
-**Key Operations:**
-- Initialize `KeycloakClient` with different auth modes
-- Custom token acquisition
-- Serialization configuration
 
 **Use Cases:**
 - Admin console access
 - Service-to-service authentication
 - Custom authentication flows
-- Token refresh strategies
+
+**[Start Here →](./authentication/README.md)**
 
 ---
 
-### 👤 [User Management - Operations](./user-management-operations.md)
+## 👤 User Management
+
+**Location:** [`./user-management/`](./user-management/)
 
 Complete guide to managing users, credentials, and user sessions.
 
-**Topics Covered:**
-- User CRUD operations
-- Password management and reset
-- Credential management
-- Group membership
-- Federated identity (Social Login)
-- Session management
-- Email actions and verification
-- Consent management
+**Topics:**
+- [User CRUD Operations](./user-management/crud-operations.md)
+- [Password Management](./user-management/passwords.md)
+- [Credential Management](./user-management/credentials.md)
+- [Group Membership](./user-management/groups.md)
+- [Federated Identity (Social Login)](./user-management/federated-identity.md)
+- [Session Management](./user-management/sessions.md)
+- [Email Actions](./user-management/email-actions.md)
+- [Consent Management](./user-management/consents.md)
+- [User Impersonation](./user-management/impersonation.md)
 
 **Key Operations:**
 - `CreateUserAsync`, `GetUsersAsync`, `UpdateUserAsync`, `DeleteUserAsync`
 - `ResetUserPasswordAsync`, `SetUserPasswordAsync`
 - `GetUserGroupsAsync`, `UpdateUserGroupAsync`
 - `GetUserSessionsAsync`, `RemoveUserSessionsAsync`
-- `VerifyUserEmailAddressAsync`, `SendUserUpdateAccountEmailAsync`
-- `AddUserSocialLoginProviderAsync`, `GetUserSocialLoginsAsync`
 
-**Use Cases:**
-- User registration and onboarding
-- Password reset workflows
-- User impersonation
-- Session monitoring and logout
-- Email verification
-- Social login integration
+**[Start Here →](./user-management/README.md)**
 
 ---
 
-### 🔧 [Client Management - Operations](./client-management-operations.md)
+## 🔧 Client Management
+
+**Location:** [`./client-management/`](./client-management/)
 
 Comprehensive guide for managing OAuth 2.0/OpenID Connect clients.
 
-**Topics Covered:**
-- Client CRUD operations
-- Client secret generation
-- Client scope management (default and optional)
-- Session statistics and monitoring
-- Protocol mapper evaluation
-- Service account management
-- Client authorization permissions
-- Cluster node management
+**Topics:**
+- [Client CRUD Operations](./client-management/crud-operations.md)
+- [Client Secret Management](./client-management/secrets.md)
+- [Client Scope Management](./client-management/scopes.md)
+- [Session Statistics](./client-management/sessions.md)
+- [Protocol Mapper Evaluation](./client-management/protocol-mappers.md)
+- [Service Account Management](./client-management/service-accounts.md)
+- [Authorization Permissions](./client-management/authorization.md)
+- [Cluster Node Management](./client-management/cluster-nodes.md)
+- [Revocation & Registration](./client-management/revocation.md)
+- [Resource Management (UMA)](./client-management/resources.md)
 
 **Key Operations:**
 - `CreateClientAsync`, `GetClientsAsync`, `UpdateClientAsync`, `DeleteClientAsync`
 - `GenerateClientSecretAsync`, `GetClientSecretAsync`
 - `GetDefaultClientScopesAsync`, `GetOptionalClientScopesAsync`
-- `GetClientSessionCountAsync`, `GetClientUserSessionsAsync`
-- `GenerateClientRegistrationAccessTokenAsync`
-- `GetResourcesOwnedByClientAsync` (UMA)
 
-**Use Cases:**
-- Register new applications
-- Configure OAuth/OIDC clients
-- Manage client credentials
-- Monitor client sessions
-- Setup service accounts
-- UMA resource management
+**[Start Here →](./client-management/README.md)**
 
 ---
 
-### 🌐 [Realm Administration - Operations](./realm-administration-operations.md)
+## 🌐 Realm Administration
+
+**Location:** [`./realm-administration/`](./realm-administration/)
 
 Guide to managing Keycloak realms and realm-level configurations.
 
-**Topics Covered:**
-- Realm CRUD operations
-- Event management (admin and user events)
-- Cache management
-- Import and export functionality
-- Session statistics
-- Default client scopes and groups
-- LDAP and SMTP testing
-- User management permissions
+**Topics:**
+- [Realm CRUD Operations](./realm-administration/crud-operations.md)
+- [Event Management](./realm-administration/events.md)
+- [Cache Management](./realm-administration/cache.md)
+- [Session Management](./realm-administration/sessions.md)
+- [Default Client Scopes](./realm-administration/client-scopes.md)
+- [Default Groups](./realm-administration/default-groups.md)
+- [Import/Export Functionality](./realm-administration/import-export.md)
+- [Testing Operations](./realm-administration/testing.md)
+- [User Management Permissions](./realm-administration/permissions.md)
+- [Other Operations](./realm-administration/other-operations.md)
 
 **Key Operations:**
 - `ImportRealmAsync`, `GetRealmsAsync`, `UpdateRealmAsync`, `DeleteRealmAsync`
-- `GetAdminEventsAsync`, `GetEventsAsync`, `DeleteAdminEventsAsync`
+- `GetAdminEventsAsync`, `GetEventsAsync`
 - `ClearKeysCacheAsync`, `ClearRealmCacheAsync`, `ClearUserCacheAsync`
-- `RealmPartialExportAsync`, `RealmPartialImportAsync`
-- `RemoveUserSessionsAsync` (logout all users)
 - `TestLdapConnectionAsync`, `TestSmtpConnectionAsync`
 
-**Use Cases:**
-- Multi-tenant setup
-- Event auditing and monitoring
-- Realm backup and restore
-- Performance optimization (cache clearing)
-- LDAP/SMTP configuration testing
-- Mass user logout
+**[Start Here →](./realm-administration/README.md)**
 
 ---
 
-### 👥 [Role and Group Management - Operations](./role-group-management-operations.md)
+## 👥 Role and Group Management
+
+**Location:** [`./role-group-management/`](./role-group-management/)
 
 Complete guide to managing roles and groups for authorization.
 
-**Topics Covered:**
-- Realm role operations
-- Client role operations
-- Composite role management
-- Group CRUD operations
-- Group hierarchy management
-- Group member management
-- Role and group permissions
+**Role Topics:**
+- [Realm Role Operations](./role-group-management/realm-roles.md)
+- [Client Role Operations](./role-group-management/client-roles.md)
+- [Composite Role Operations](./role-group-management/composite-roles.md)
+- [Role Associations](./role-group-management/role-associations.md)
+- [Role Permissions](./role-group-management/role-permissions.md)
+
+**Group Topics:**
+- [Group CRUD Operations](./role-group-management/group-crud.md)
+- [Group Hierarchy](./role-group-management/group-hierarchy.md)
+- [Group Members](./role-group-management/group-members.md)
+- [Group Permissions](./role-group-management/group-permissions.md)
 
 **Key Operations:**
 - `CreateRoleAsync`, `GetRolesAsync`, `UpdateRoleByNameAsync`, `DeleteRoleByNameAsync`
-- `AddCompositesToRoleAsync`, `GetRoleCompositesAsync`, `RemoveCompositesFromRoleAsync`
-- `GetUsersWithRoleNameAsync`, `GetGroupsWithRoleNameAsync`
+- `AddCompositesToRoleAsync`, `GetRoleCompositesAsync`
 - `CreateGroupAsync`, `GetGroupHierarchyAsync`, `UpdateGroupAsync`, `DeleteGroupAsync`
-- `SetOrCreateGroupChildAsync`, `GetGroupUsersAsync`
 
-**Use Cases:**
-- Role-Based Access Control (RBAC)
-- Permission hierarchies
-- Organizational structure modeling
-- Department and team management
-- Role inheritance through groups
+**[Start Here →](./role-group-management/README.md)**
 
 ---
 
@@ -218,19 +204,25 @@ await client.AddCompositesToRoleAsync("master", "admin", new[] { userRole });
 
 ## Understanding the Documentation
 
+### Structure
+
+Each feature area follows this structure:
+- **README.md** - Overview, models, and table of contents
+- **Specific operation files** - Detailed documentation for operation groups
+- **Examples** - Complete, runnable code samples
+- **Diagrams** - PlantUML sequence diagrams for complex flows
+
 ### Sequence Diagrams
 
 Each major operation includes a sequence diagram showing the flow between:
 - **Application**: Your code using the library
 - **KeycloakClient**: The client library
 - **Keycloak Server**: The Keycloak backend
-- **Other Components**: Email services, LDAP, etc.
 
 These diagrams use Mermaid syntax and help visualize:
 - Authentication flows
 - API request/response patterns
 - Error handling paths
-- Multi-step operations
 
 ### Code Examples
 
@@ -240,17 +232,15 @@ All examples are complete and runnable. They follow these conventions:
 - Show both simple and advanced usage
 - Demonstrate best practices
 
-### API Location References
+### API References
 
-Each operation includes a reference like:
-```
-Location: /src/Keycloak.ApiClient.Net/Users/KeycloakClient.cs:18
-```
-
-This shows where in the source code the operation is implemented, helping you:
-- Find the exact implementation
-- Understand parameter requirements
-- See the underlying HTTP calls
+Each operation includes:
+- **Location**: Source code file and line number
+- **Keycloak API**: Link to official Keycloak REST API documentation
+- **Signature**: Method signature with parameters
+- **Parameters**: Description of each parameter
+- **Returns**: Description of return value
+- **Examples**: Complete usage examples
 
 ## Common Patterns
 
@@ -320,19 +310,14 @@ var client = new KeycloakClient(
 
 ## Feature Coverage
 
-| Feature | Documentation | Coverage |
+| Feature | Documentation | Location |
 |---------|---------------|----------|
-| Authentication | ✅ authentication-core.md | Complete |
-| Users | ✅ user-management-operations.md | Complete |
-| Clients | ✅ client-management-operations.md | Complete |
-| Realms | ✅ realm-administration-operations.md | Complete |
-| Roles | ✅ role-group-management-operations.md | Complete |
-| Groups | ✅ role-group-management-operations.md | Complete |
-| Client Scopes | ⚠️ Covered in client-management | Partial |
-| Identity Providers | ⚠️ Covered in user-management | Partial |
-| Components | 📋 Planned | Pending |
-| Protocol Mappers | 📋 Planned | Pending |
-| Authorization | 📋 Planned | Pending |
+| Authentication | ✅ Complete | [./authentication/](./authentication/) |
+| Users | ✅ Complete | [./user-management/](./user-management/) |
+| Clients | ✅ Complete | [./client-management/](./client-management/) |
+| Realms | ✅ Complete | [./realm-administration/](./realm-administration/) |
+| Roles | ✅ Complete | [./role-group-management/](./role-group-management/) |
+| Groups | ✅ Complete | [./role-group-management/](./role-group-management/) |
 
 ## Additional Resources
 
@@ -343,38 +328,31 @@ var client = new KeycloakClient(
 - [OpenID Connect](https://openid.net/connect/)
 
 ### Library Resources
-- [GitHub Repository](https://github.com/your-repo/Keycloak.ApiClient.Net)
+- [GitHub Repository](https://github.com/leandrogf/Keycloak.ApiClient.Net)
 - [NuGet Package](https://www.nuget.org/packages/Keycloak.ApiClient.Net)
-- [Release Notes](../CHANGELOG.md)
-- [Main README](../../README.md)
+- [Main README](../README.md)
+- [CLAUDE.md](../CLAUDE.md) - Codebase guide for development
 
-## Support and Contributions
+## Getting Help
 
-### Getting Help
 - Review the documentation for your specific use case
 - Check the sequence diagrams to understand the flow
 - Look at the complete examples for working code
 - Search existing issues on GitHub
-
-### Contributing
-If you find errors or want to improve the documentation:
-1. Fork the repository
-2. Update the relevant documentation file
-3. Submit a pull request
-4. Follow the existing documentation style
+- Refer to official Keycloak API documentation
 
 ## Documentation Version
 
-**Library Version**: 2.0.0
-**Documentation Last Updated**: January 2025
+**Library Version**: 2.0.2
+**Documentation Last Updated**: January 2026
 **Keycloak Compatibility**: 17+
 
 ---
 
 ## Quick Navigation
 
-- **New to the library?** Start with [Authentication](./authentication-core.md)
-- **Managing users?** See [User Management](./user-management-operations.md)
-- **Setting up apps?** Check [Client Management](./client-management-operations.md)
-- **Configuring realms?** Review [Realm Administration](./realm-administration-operations.md)
-- **Working with permissions?** Read [Role and Group Management](./role-group-management-operations.md)
+- **New to the library?** Start with [Authentication](./authentication/README.md)
+- **Managing users?** See [User Management](./user-management/README.md)
+- **Setting up apps?** Check [Client Management](./client-management/README.md)
+- **Configuring realms?** Review [Realm Administration](./realm-administration/README.md)
+- **Working with permissions?** Read [Role and Group Management](./role-group-management/README.md)

@@ -1,23 +1,29 @@
 #!/bin/bash
-# Analyze changes for a specific documentation file since last update
-# Usage: ./analyze-doc-changes.sh <doc-file-name>
+# Analyze changes for a specific documentation area since last update
+# Usage: ./analyze-doc-changes.sh <doc-folder-name>
+# Example: ./analyze-doc-changes.sh user-management
 
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <doc-file-name>"
-    echo "Example: $0 user-management-operations.md"
+    echo "Usage: $0 <doc-folder-name>"
+    echo "Available areas:"
+    echo "  - authentication"
+    echo "  - user-management"
+    echo "  - client-management"
+    echo "  - realm-administration"
+    echo "  - role-group-management"
     exit 1
 fi
 
-DOC_FILE="$1"
-DOC_PATH="docs/$DOC_FILE"
+DOC_AREA="$1"
+DOC_PATH="docs/$DOC_AREA/README.md"
 
-# Mapping of doc files to source directories
+# Mapping of doc folders to source directories
 declare -A DOC_MAPPINGS=(
-    ["user-management-operations.md"]="Users"
-    ["client-management-operations.md"]="Clients"
-    ["role-group-management-operations.md"]="Roles,Groups,RoleMapper,ScopeMappings"
-    ["realm-administration-operations.md"]="RealmsAdmin,Root"
-    ["authentication-core.md"]="KeycloakClient.cs,Common/Extensions"
+    ["user-management"]="Users"
+    ["client-management"]="Clients"
+    ["role-group-management"]="Roles,Groups,RoleMapper,ScopeMappings"
+    ["realm-administration"]="RealmsAdmin,Root"
+    ["authentication"]="KeycloakClient.cs,Common/Extensions"
 )
 
 if [ ! -f "$DOC_PATH" ]; then
@@ -25,9 +31,9 @@ if [ ! -f "$DOC_PATH" ]; then
     exit 1
 fi
 
-if [ -z "${DOC_MAPPINGS[$DOC_FILE]}" ]; then
-    echo "Error: No source mapping found for $DOC_FILE"
-    echo "Available files:"
+if [ -z "${DOC_MAPPINGS[$DOC_AREA]}" ]; then
+    echo "Error: No source mapping found for $DOC_AREA"
+    echo "Available areas:"
     for key in "${!DOC_MAPPINGS[@]}"; do
         echo "  - $key"
     done
@@ -54,7 +60,7 @@ echo "╔═══════════════════════�
 echo "║         Documentation Change Analysis                              ║"
 echo "╚════════════════════════════════════════════════════════════════════╝"
 echo ""
-echo "Documentation: $DOC_FILE"
+echo "Documentation Area: $DOC_AREA"
 echo "Last Documented: $LAST_HASH"
 echo "Current Commit:  $CURRENT_HASH ($CURRENT_HASH_SHORT)"
 echo ""
@@ -65,7 +71,7 @@ if [ "$LAST_HASH" == "$CURRENT_HASH" ]; then
 fi
 
 # Get source paths
-SOURCE_PATHS="${DOC_MAPPINGS[$DOC_FILE]}"
+SOURCE_PATHS="${DOC_MAPPINGS[$DOC_AREA]}"
 SRC_DIR="src/Keycloak.ApiClient.Net"
 
 echo "Source directories: $SOURCE_PATHS"
@@ -139,11 +145,14 @@ else
     echo "╚════════════════════════════════════════════════════════════════════╝"
     echo ""
     echo "1. Review the changes above"
-    echo "2. Update $DOC_FILE following .claude/protocols/update-documentation.md"
+    echo "2. Update docs/$DOC_AREA/ files following:"
+    echo "   - .claude/document-style-guide.md (writing standards)"
+    echo "   - .claude/protocols/update-documentation.md (process)"
     echo "3. Add/update documentation for new/changed methods"
     echo "4. Add PlantUML sequence diagrams for complex new operations"
-    echo "5. Update code examples if behavior changed"
-    echo "6. Update metadata header:"
+    echo "5. Include Keycloak API references for all operations"
+    echo "6. Update code examples if behavior changed"
+    echo "7. Update metadata header in all affected files:"
     echo "   - Last Updated: $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
     echo "   - Git Commit: \`$CURRENT_HASH_SHORT\` ($CURRENT_HASH)"
     echo ""

@@ -4,23 +4,23 @@
 DOCS_DIR="docs"
 SRC_DIR="src/Keycloak.ApiClient.Net"
 
-# Mapping of doc files to source directories
+# Mapping of doc folders/files to source directories
 declare -A DOC_MAPPINGS=(
-    ["user-management-operations.md"]="Users"
-    ["client-management-operations.md"]="Clients"
-    ["role-group-management-operations.md"]="Roles,Groups,RoleMapper,ScopeMappings"
-    ["realm-administration-operations.md"]="RealmsAdmin,Root"
-    ["authentication-core.md"]="KeycloakClient.cs,Common/Extensions"
+    ["user-management"]="Users"
+    ["client-management"]="Clients"
+    ["role-group-management"]="Roles,Groups,RoleMapper,ScopeMappings"
+    ["realm-administration"]="RealmsAdmin,Root"
+    ["authentication"]="KeycloakClient.cs,Common/Extensions"
 )
 
 echo "=== Documentation Update Check ==="
 echo ""
 
-for doc_file in "${!DOC_MAPPINGS[@]}"; do
-    DOC_PATH="$DOCS_DIR/$doc_file"
+for doc_area in "${!DOC_MAPPINGS[@]}"; do
+    DOC_PATH="$DOCS_DIR/$doc_area/README.md"
 
     if [ ! -f "$DOC_PATH" ]; then
-        echo "⚠️  $doc_file - File not found"
+        echo "⚠️  $doc_area - File not found: $DOC_PATH"
         continue
     fi
 
@@ -29,17 +29,17 @@ for doc_file in "${!DOC_MAPPINGS[@]}"; do
     CURRENT_HASH=$(git rev-parse HEAD)
 
     if [ -z "$LAST_HASH" ]; then
-        echo "⚠️  $doc_file - No metadata found"
+        echo "⚠️  $doc_area - No metadata found"
         continue
     fi
 
     if [ "$LAST_HASH" == "$CURRENT_HASH" ]; then
-        echo "✅ $doc_file - Up to date"
+        echo "✅ $doc_area - Up to date"
         continue
     fi
 
     # Check if source files changed
-    SOURCE_PATHS="${DOC_MAPPINGS[$doc_file]}"
+    SOURCE_PATHS="${DOC_MAPPINGS[$doc_area]}"
     CHANGED=false
 
     IFS=',' read -ra PATHS <<< "$SOURCE_PATHS"
@@ -53,7 +53,7 @@ for doc_file in "${!DOC_MAPPINGS[@]}"; do
     done
 
     if [ "$CHANGED" = true ]; then
-        echo "🔄 $doc_file - Needs update"
+        echo "🔄 $doc_area - Needs update"
         echo "   Last: $LAST_HASH"
         echo "   Current: $CURRENT_HASH"
         echo "   Changed files:"
@@ -62,12 +62,19 @@ for doc_file in "${!DOC_MAPPINGS[@]}"; do
         done
         echo ""
     else
-        echo "ℹ️  $doc_file - Code unchanged (metadata update only needed)"
+        echo "ℹ️  $doc_area - Code unchanged (metadata update only needed)"
     fi
 done
 
 echo ""
 echo "=== Summary ==="
+echo "Documentation is now organized into folders:"
+echo "  docs/authentication/"
+echo "  docs/user-management/"
+echo "  docs/client-management/"
+echo "  docs/realm-administration/"
+echo "  docs/role-group-management/"
+echo ""
 echo "Run this script from the repository root to check documentation status."
-echo "To see detailed changes for a specific doc:"
-echo "  git diff <LAST_HASH> HEAD -- <SOURCE_PATH>"
+echo "To see detailed changes for a specific area:"
+echo "  bash .claude/scripts/analyze-doc-changes.sh <folder-name>"
